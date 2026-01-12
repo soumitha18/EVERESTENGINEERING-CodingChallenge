@@ -3,7 +3,7 @@
 // PKG3 10 100 OFR003`
 
 let input = `100 1
-PKG1 50 100 OFR003`
+PKG1 50 -100 OFR003`
 
 const packages= input.trim().split("\n");
 
@@ -34,11 +34,18 @@ const offers= {
 }
 
 for(let i=1; i <= no_of_packages; i++){
+    if (!packages[i]) continue;
+
     const package = packages[i].split(" ")
     const pkg_id = package[0]
     const pkg_weight = Number(package[1])
     const distance = Number(package[2])
-    const offer_code = package[3]
+    const offer_code = package[3].toUpperCase()
+
+    if(pkg_weight < 0 || distance < 0){
+        console.log("invalid input!")
+        continue;
+    }
      
     let cost = base_delivery_cost + ( pkg_weight * 10 ) + ( distance * 5 )
     // console.log(cost, "cost:::")
@@ -51,7 +58,17 @@ for(let i=1; i <= no_of_packages; i++){
         }
     }
     // console.log(discount, "discount:::")
-    
+
     const total_cost = cost - discount
     console.log(pkg_id, discount, total_cost)
 }
+
+/** edge cases handled..... 
+ * 1. invalid offer codes (no discount added)
+ * 2. sensitivity in Offer Code
+ * 3. offer boundaries (weight and distance)
+ * 4. prevents decimal output - discount value
+ * 5. mismatch b/w no_of_packages and list of packages
+ * 6. invalid inputs (negative values)
+*/
+
