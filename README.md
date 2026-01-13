@@ -1,6 +1,6 @@
 ## findBestBatch Explanation
-* this function help to determine the best group of packages a vehicle can carry in one trip without execeeding the maximum weight.
-* it uses recursion to explore all possible package combinations.
+* This function help to determine the best group of packages a vehicle can carry in one trip without execeeding the maximum weight.
+* It uses recursion to explore all possible package combinations.
 
 ### How the recursion works
 * The recursive function `_backtrack` starts from a given index and tries adding packages one by one to the current batch.
@@ -8,17 +8,17 @@
 * Every call we have track of the current batch of packages and total weight of the batch.
   
 ### when recursion stops - this will occure in two cases
-* weight limit exceeded
-* all packages processed
+* Weight limit exceeded
+* All packages processed
   
 ### why recusion
 * Backtracking allows trying all valid combinations without permanently modifying the batch and stops immediately when weight exceeds limit.
 * After exploring a path, the last added package is removed so other combinations can be evaluated.
 
-* once the recursion explored, the function returns the package batch which will fits within the weight, maximum packages and vehicle capacity 
+* Once the recursion explored, the function returns the package batch which will fits within the weight, maximum packages and vehicle capacity 
   
 ## Example
-* no of vehicles: `2` and max speed: `70` and max weight: `200`
+* No of vehicles: `2` and max speed: `70` and max weight: `200`
 * `findBestBatch` function will take no of packages that not delivered and maximum weight
 
 ### step by step recursion flow
