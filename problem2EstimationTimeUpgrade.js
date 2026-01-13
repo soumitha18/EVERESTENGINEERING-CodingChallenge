@@ -71,3 +71,106 @@ for(let i=1; i <= no_of_packages; i++){
 
 let vehicles = Array(no_of_vehicles).fill(0);
 let delivered_count = 0;
+
+const findPackageBatchCombination = (available_packages, weight) => {
+    let vehicleBatch = []
+    let maxWeight = 0
+
+    function vehicleTracking(index, currentBatch, currentWeight){
+        if (currentWeight > weight) return;
+
+        const isBetterCount = currentBatch.length > vehicleBatch.length;
+        const isBetterWeight = currentBatch.length === vehicleBatch.length && currentWeight > maxWeight;
+
+        if (isBetterCount || isBetterWeight) {
+            vehicleBatch = [...currentBatch];
+            maxWeight = currentWeight;
+        }
+
+        for (let i = index; i < available_packages.length; i++) {
+            currentBatch.push(available_packages[i]);
+            vehicleTracking(i + 1, currentBatch, currentWeight + available_packages[i].pkg_weight);
+            currentBatch.pop(); 
+        }
+    }
+
+    vehicleTracking (0, [], 0)
+    return vehicleBatch
+}
+
+/**
+ * Explanation & Example
+ * this function help to determine the best group of packages a vehicle can carry in one trip without execeeding the maximum weight.
+ * it uses recursion to explore all possible package combinations.
+ * 
+ * how the recursion works 
+ * 1. the recursive function vehicleTracking starts from a given index and tries adding packages one by one to the current batch.
+ * 2. each recursive call represents a decision to include the next package in the current trip.
+ * 3. every call we have track of the current batch of packages and total weight of the batch.
+ * 
+ * when recursion stops - this will occure in two cases
+ * 1. weight limit exceeded
+ * 2. all packages processed
+ * 
+ * why recusion
+ * 1. backtracking allows trying all valid combinations without permanently modifying the batch and stops immediately when weight exceeds limit.
+ * 2. after exploring a path, the last added package is removed so other combinations can be evaluated.
+ * 
+ * once the recursion explored, the function returns the package batch which will fits within the weight, maximum packages and vehicle capacity 
+ * 
+ * Example
+ * no of vehicles: 2 and max speed: 70 and max weight: 200
+ * findPackageBatchCombination function will take no of packages that not delivered and maximum weight
+ * 
+ * step by step recursion flow
+ * 1. recursion started with => no packages selected and total weight is 0 => vehicleTracking(0, [], 0)
+ * 2. try PKG1 => current batch: [PKG1] and weight: 50 (<200) => best batch updated to [PKG1]
+ * 3. try PKG2 with 1 => current batch: [PKG1, PKG2] and weight: 125 (<200) => best batch updataed to [PKG1, PKG2]
+ * 4. try PKG3 with 1,2 => current batch: [PKG1, PKG2, PKG3] and weight: 300 (>200) => exceeded max weight - recursion stops here and backtrack => batch is still [PKG1, PLG2].
+ * 5, try PKG4 with 1,2 => current batch: [PKG1, PKG2, PKG4] and weight: 235 (>200) => exceeded max weight - recursion stops and backtrack => batch is still [PKG1, PLG2].
+ * 6. try PKG5 with 1,2 => current batch: [PKG1, PKG2, PKG5] and weight: 280 (>200) => exceeded max weight - recursion stops and backtrack => batch is still [PKG1, PLG2].
+ * 
+ * 7. try PKG3 with 1 => current batch: [PKG1, PKG3] and weight: 225 (>200) => recursion stops and backtrack
+ * 
+ * 8. try PKG4 with 1 => current batch: [PKG1, PKG4] and weight: 160 (<200) => same package count, higher weight -> best batch updated to [PKG1, PKG4]
+ * 
+ * 9. backtrack and try PKG2 and PKG4 => current batch: [PKG3, PKG4] and weight: 185 => best batch
+ * 
+ * 10. try PKG3 alone => weight 185 (<200) => but less packages, not preferred
+ * 
+ * 11. try PKG4 and PKG5 => weight become 265 => stop and backtrack
+ * 
+ * so the final batch selected is [PKG2, PKG4] => 
+ * 1. weight 185 (maximum possible under 200 weight limit).
+ * 2. number of packages: 2. 
+ */
+
+// it will loop until all packages delivered
+while(delivered_count < no_of_packages){
+    let available_vehicle = Math.min(...vehicles)
+    let vehicle_index = vehicles.indexOf(available_vehicle)
+
+    let remaining_packages = packages_delivery_info.filter(p => !p.delivered)
+    if(remaining_packages.length === 0) break;
+
+    // using the findPackageBatchCombination function will calculated how many packages delivered in each batch.
+    let aligned_packages = findPackageBatchCombination(remaining_packages, max_weight);
+    // console.log(aligned_packages, "Aligned Packages:::::")
+
+    let max_dist_in_trip = 0
+    for(let package of aligned_packages){
+        package.delivered = true
+        package.delivery_time = available_vehicle + (package.distance/max_speed)
+        
+        if(package.distance > max_dist_in_trip)
+            max_dist_in_trip = package.distance
+
+        delivered_count++
+    }
+    
+    vehicles[vehicle_index] = available_vehicle + (2*max_dist_in_trip/max_speed)
+}
+
+packages_delivery_info.forEach(package => {
+    console.log(package.pkg_id, package.discount, package.total_cost, package.delivery_time.toFixed(2))
+})
