@@ -117,7 +117,7 @@ packagesInfo.forEach(pkg => {
  * PKG4 105 1395 0.86
  * PKG5 0 2125 4.21
  * 
- * delivery time may 0.02, 0.01 different than the ssample output
+ * delivery time may 0.02, 0.01 different than the sample output
  * 
  * that occures in (line 97 =>  pkg.deliveryTime = earliestAvailableTime + pkg.pkgDistance / maxSpeed;)
  * or while calculating vehicleAvailable calculation in (line 104 => vehicleAvailable[vehicleIndex] = earliestAvailableTime + (2 * maxDistanceInTrip) / maxSpeed;)
