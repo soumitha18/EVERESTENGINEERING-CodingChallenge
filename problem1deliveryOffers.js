@@ -1,66 +1,51 @@
-// let input= `100 2
-// PKG2 15 5 OFR002
-// PKG3 10 100 OFR003`
+let input= `100 3
+PKG3 10 100 OFR003
+PKG1 50 -100 OFR003
+PKG2 15 5 OFR002`
 
-let input = `100 1
-PKG1 50 -100 OFR003`
+// let input = `100 1
+// PKG1 50 100 OFR003`
 
 const packages= input.trim().split("\n");
 
-const [base_delivery_cost , no_of_packages]= packages[0].split(" ").map(Number)
+const [baseDeliveryCost, noOfPackages] = packages[0].split(" ").map(Number);
+const [noOfVehicles, maxSpeed, maxWeight] = packages[packages.length - 1].split(" ").map(Number);
 
-const offers= {
-    OFR001: {
-        discount : 10,
-        min_distance: 0,
-        max_distance: 199,
-        min_weight: 70,
-        max_weight: 200
-    },
-    OFR002: {
-        discount: 7,
-        min_distance: 50,
-        max_distance: 150,
-        min_weight: 100,
-        max_weight: 250
-    },
-    OFR003: {
-        discount: 5,
-        min_distance: 50,
-        max_distance: 250,
-        min_weight: 10,
-        max_weight: 150
-    }
-}
+// Offers
+const offers = {
+    OFR001: { discount: 10, minDistance: 0, maxDistance: 199, minWeight: 70, maxWeight: 200 },
+    OFR002: { discount: 7, minDistance: 50, maxDistance: 150, minWeight: 100, maxWeight: 250 },
+    OFR003: { discount: 5, minDistance: 50, maxDistance: 250, minWeight: 10, maxWeight: 150 }
+};
 
-for(let i=1; i <= no_of_packages; i++){
-    if (!packages[i]) continue;
+// Process packages
+const packagesInfo = [];
+
+for (let i = 1; i <= noOfPackages; i++) {
+     if (!packages[i]) continue;
 
     const package = packages[i].split(" ")
-    const pkg_id = package[0]
-    const pkg_weight = Number(package[1])
-    const distance = Number(package[2])
-    const offer_code = package[3].toUpperCase()
-
-    if(pkg_weight < 0 || distance < 0){
-        console.log("invalid input!")
+    const pkgId = package[0]
+    const pkgWeight = Number(package[1])
+    const pkgDistance = Number(package[2])
+    const offerCode = package[3].toUpperCase()
+    if (pkgWeight < 0 || pkgDistance < 0) {
+        console.log(`Invalid package details for ${pkgId}!`);
         continue;
     }
-     
-    let cost = base_delivery_cost + ( pkg_weight * 10 ) + ( distance * 5 )
-    // console.log(cost, "cost:::")
 
-    let discount = 0
-    if(offers[offer_code]){
-        const offer = offers[offer_code]
-        if(distance >= offer.min_distance && distance <= offer.max_distance && pkg_weight >= offer.min_weight && pkg_weight <= offer.max_weight){
+    let cost = baseDeliveryCost + ( pkgWeight * 10 ) + ( pkgDistance * 5 );
+
+    let discount = 0;
+    if (offers[offerCode]) {
+        const offer = offers[offerCode]
+        if(pkgDistance >= offer.minDistance && pkgDistance <= offer.maxDistance && pkgWeight >= offer.minWeight && pkgWeight <= offer.maxWeight){
             discount = Math.floor(cost * (offer.discount / 100))
         }
     }
-    // console.log(discount, "discount:::")
 
-    const total_cost = cost - discount
-    console.log(pkg_id, discount, total_cost)
+    const totalCost = cost - discount
+    console.log(pkgId, discount, totalCost)
 }
 
 /** edge cases handled..... 
