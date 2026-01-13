@@ -1,10 +1,9 @@
 // Input
-let input = `100 5
+let input = `100 4
 PKG1 50 30 OFR001
 PKG2 75 125 OFFR0008
 PKG3 175 100 OFR003
 PKG4 110 60 OFR002
-PKG5 155 95 NA
 2 70 200`;
 
 const packages= input.trim().split("\n");
@@ -19,11 +18,16 @@ const offers = {
     OFR003: { discount: 5, minDistance: 50, maxDistance: 250, minWeight: 10, maxWeight: 150 }
 };
 
+// what if the no of packages is not equal to the packages details given
+if(noOfPackages !== (packages.length - 2)){
+    throw new Error(`Input says ${noOfPackages} packages, but only ${packages.length - 2} package details provided.`)
+}
+
 // Process packages
 const packagesInfo = [];
 
 for (let i = 1; i <= noOfPackages; i++) {
-     if (!packages[i]) continue;
+    if (!packages[i]) continue;
 
     const package = packages[i].split(" ")
     const pkgId = package[0]
@@ -90,6 +94,12 @@ while (deliveredCount < noOfPackages) {
     if (remainingPackages.length === 0) break;
 
     const batch = findBestBatch(remainingPackages, maxWeight);
+
+    // If the package weight exceeds the maximum limit, no package will be assigned to any vehicle.
+    // Nothing will be delivered, so we throw an error to stop the loop.
+    if (batch.length === 0) {
+        throw new Error("Package assignment failed: weight exceeds the maximum limit.");
+    }
 
     let maxDistanceInTrip = 0;
     for (const pkg of batch) {
