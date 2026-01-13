@@ -108,3 +108,17 @@ while (deliveredCount < noOfPackages) {
 packagesInfo.forEach(pkg => {
     console.log(pkg.pkgId, pkg.discount, pkg.totalCost, pkg.deliveryTime.toFixed(2));
 });
+
+/**
+ * output we got : 
+ * PKG1 0 750 4.00
+ * PKG2 0 1475 1.79
+ * PKG3 0 2350 1.43
+ * PKG4 105 1395 0.86
+ * PKG5 0 2125 4.21
+ * 
+ * delivery time may 0.02, 0.01 different than the ssample output
+ * 
+ * that occures in (line 97 =>  pkg.deliveryTime = earliestAvailableTime + pkg.pkgDistance / maxSpeed;)
+ * or while calculating vehicleAvailable calculation in (line 104 => vehicleAvailable[vehicleIndex] = earliestAvailableTime + (2 * maxDistanceInTrip) / maxSpeed;)
+ */
