@@ -20,3 +20,21 @@ export async function enterPackageDetails(packageCount) {
 
     return pkg
 }
+
+export async function displayOutput(packages, type = 'cost') {
+  const tableData = packages.map(pkg => {
+    const row = {
+      "Package ID": pkg.id,
+      "Discount" : pkg.discount,
+      "Total Cost" : pkg.totalCost
+    };
+
+    if (type === "deliveryTime") {
+      row["Delivery Time"] = `${pkg.deliveryTime.toFixed(2)}`;
+    }
+
+    return row;
+  });
+
+  console.table(tableData);
+}

@@ -1,7 +1,7 @@
 import inquirer from "inquirer";
 import { calculateCost } from "../utils/service.js";
 import { validatePositiveNumber } from "../utils/validate.js";
-import { enterPackageDetails } from "../utils/helpers.js";
+import { displayOutput, enterPackageDetails } from "../utils/helpers.js";
 
 export async function calculateDeliveryCost() {
 
@@ -22,9 +22,9 @@ export async function calculateDeliveryCost() {
   const packages = [];
 
   for (let i = 0; i < Number(count); i++) {
-    const pkg = enterPackageDetails(i+1)
-    packages.push(calculateCost(baseCost, pkg));
+    const pkg = await enterPackageDetails(i+1)
+    packages.push(await calculateCost(baseCost, pkg));
   }
 
-  console.log(packages);
+  displayOutput(packages)
 }

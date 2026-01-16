@@ -1,7 +1,6 @@
 import inquirer from "inquirer";
-import { calculateCost } from "../utils/service.js";
-import Vehicle from "../assets/vehicle.js";
-import { enterPackageDetails } from "../utils/helpers.js";
+import { calculateCost, scheduleDeliveries } from "../utils/service.js";
+import { displayOutput, enterPackageDetails } from "../utils/helpers.js";
 import { validatePositiveNumber } from "../utils/validate.js";
 
 export async function deliveryTime() {
@@ -13,13 +12,13 @@ export async function deliveryTime() {
         { name: "packageCount", message: "Number of packages:", validate: (input) => validatePositiveNumber(input, "Number of packages") }
     ]);
 
-    const vehicles = Array.from({ length: Number(vehicleCount) }, () => new Vehicle({ maxSpeed: Number(maxSpeed), maxWeight: Number(maxWeight) }));
-
     const packages = [];
     for (let i = 0; i < Number(packageCount); i++) {
         const pkg = await enterPackageDetails(i + 1)
         packages.push(calculateCost(baseCost, pkg));
     }
 
-    console.log(vehicles, packages)
+    const deliveredPackages = scheduleDeliveries(packages, vehicleCount, maxSpeed, maxWeight);
+
+    displayOutput(deliveredPackages, "deliveryTime")
 }

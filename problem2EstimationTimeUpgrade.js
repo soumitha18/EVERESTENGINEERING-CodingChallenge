@@ -1,9 +1,10 @@
 // Input
-let input = `100 4
+let input = `100 5
 PKG1 50 30 OFR001
 PKG2 75 125 OFFR0008
-PKG3 175 100 OFR003
-PKG4 110 60 OFR002
+PKG3 175 100 OFFR003
+PKG4 110 60 OFFR002
+PKG5 155 95 NA
 2 70 200`;
 
 const packages= input.trim().split("\n");
