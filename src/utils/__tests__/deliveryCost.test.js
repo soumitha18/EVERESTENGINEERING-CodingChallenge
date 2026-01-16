@@ -1,4 +1,4 @@
-import { calculateCost } from "../service";
+import { calculateCost } from "../service.js";
 
 describe('calculateCost', () => {
   test('calculates total cost without offer', () => {
