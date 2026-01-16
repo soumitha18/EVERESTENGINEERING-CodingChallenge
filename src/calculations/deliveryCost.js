@@ -1,7 +1,7 @@
 import inquirer from "inquirer";
-import Package from "../assets/package.js";
 import { calculateCost } from "../utils/service.js";
 import { validatePositiveNumber } from "../utils/validate.js";
+import { enterPackageDetails } from "../utils/helpers.js";
 
 export async function calculateDeliveryCost() {
 
@@ -22,29 +22,7 @@ export async function calculateDeliveryCost() {
   const packages = [];
 
   for (let i = 0; i < Number(count); i++) {
-    console.log(`\nEnter details of package ${i+1}`);
-    const answers = await inquirer.prompt([
-      { name: "id", message: "Package ID:" },
-      {
-        name: "weight",
-        message: "Package Weight:",
-        validate: (input) => validatePositiveNumber(input, "Weight")
-      },
-      {
-        name: "distance",
-        message: "Package Distance:",
-        validate: (input) => validatePositiveNumber(input, "Distance")
-      },
-      { name: "offer", message: "Offer Code:", default: "" }
-    ]);
-
-    const pkg = new Package({
-      id: answers.id,
-      weight: parseFloat(answers.weight),
-      distance: parseFloat(answers.distance),
-      offer: answers.offer
-    });
-
+    const pkg = enterPackageDetails(i+1)
     packages.push(calculateCost(baseCost, pkg));
   }
 

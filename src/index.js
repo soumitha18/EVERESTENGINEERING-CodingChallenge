@@ -1,5 +1,6 @@
 import inquirer from "inquirer";
 import { calculateDeliveryCost } from "./calculations/deliveryCost.js";
+import { deliveryTime } from "./calculations/deliveryTime.js";
 
 async function main() {
   console.log(`
@@ -23,7 +24,7 @@ async function main() {
     }
 
     if (choice === "Calculate delivery time") {
-      console.log("Delivery time calculation coming next......");
+      await deliveryTime()
     }
   }
 }
