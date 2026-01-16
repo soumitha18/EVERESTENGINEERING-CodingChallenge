@@ -1,0 +1,10 @@
+{
+  "name": "kiki_express",
+  "version": "1.0.0",
+  "description": "Kiki Express - simple CLI package delivery demo",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node ./src/index.js"
+  },
+  "dependencies": {}
+}
