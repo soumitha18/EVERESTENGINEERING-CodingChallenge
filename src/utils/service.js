@@ -1,10 +1,10 @@
-import offers from "../config/offers.js";
+import { offers, costPerKg, costPerKm, returnTriptMultiper } from "../config/offers.js";
 
 export function calculateCost(baseCost, pkg) {
-    const cost = Number(baseCost) + Number(pkg.weight) * 10 + Number(pkg.distance) * 5;
+    const cost = Number(baseCost) + Number(pkg.weight) * costPerKg + Number(pkg.distance) * costPerKm;
     let discount = 0;
 
-    if (offers[pkg.offer]) {
+    if (pkg.offer && offers[pkg.offer]) {
         const o = offers[pkg.offer];
         if (
             pkg.weight >= o.minWeight &&
@@ -16,14 +16,18 @@ export function calculateCost(baseCost, pkg) {
         }
     }
 
-    pkg.cost = cost;
-    pkg.discount = discount;
-    pkg.totalCost = cost - discount;
-
-    return pkg;
+     return {
+        ...pkg,
+        cost,
+        discount,
+        totalCost: cost - discount
+    };
 }
 
 export function scheduleDeliveries(packages, vehicleCount, maxSpeed, maxWeight) {
+
+    if (vehicleCount <= 0) throw new Error("Configuration Error: Vehicle count cannot be zero.");
+
     let vehicleAvailable = Array(vehicleCount).fill(0);
     let deliveredCount = 0;
 
@@ -48,11 +52,12 @@ export function scheduleDeliveries(packages, vehicleCount, maxSpeed, maxWeight) 
             deliveredCount++;
         }
 
-        vehicleAvailable[vehicleIndex] = earliestAvailableTime + (2 * maxDistanceInTrip) / maxSpeed;
+        vehicleAvailable[vehicleIndex] = earliestAvailableTime + (returnTriptMultiper * maxDistanceInTrip) / maxSpeed;
     }
     return packages;
 }
 
+// Backtracking used due to small input size
 function findBestBatch(availablePackages, maxWeight) {
     let bestBatch = [];
     let maxBatchWeight = 0;
