@@ -1,44 +1,76 @@
-## findBestBatch Explanation
-* This function help to determine the best group of packages a vehicle can carry in one trip without execeeding the maximum weight.
-* It uses recursion to explore all possible package combinations.
+# K I K I  E X P R E S S - Coding Challenge
 
-### How the recursion works
-* The recursive function `_backtrack` starts from a given index and tries adding packages one by one to the current batch.
-* Each recursive call represents a decision to include the next package in the current trip.
-* Every call we have track of the current batch of packages and total weight of the batch.
-  
-### when recursion stops - this will occure in two cases
-* Weight limit exceeded
-* All packages processed
-  
-### why recusion
-* Backtracking allows trying all valid combinations without permanently modifying the batch and stops immediately when weight exceeds limit.
-* After exploring a path, the last added package is removed so other combinations can be evaluated.
+A CLI application to calculate delivery cost and estimated delivery times for packages based on **weight**, **distance**, **offers** and **vehicle information**.
 
-* Once the recursion explored, the function returns the package batch which will fits within the weight, maximum packages and vehicle capacity 
-  
-## Example
-* No of vehicles: `2` and max speed: `70` and max weight: `200`
-* `findBestBatch` function will take no of packages that not delivered and maximum weight
+## Core Functionality
+The application supports two main use cases:
+1. **Delivery Cost Calculation**: Calculate delivery cost per package and applies discount for valid offers.
+2. **Delivery Time Calculation**: Selects the best vehicle for each package to complete deliveries as quickly as possible.
 
-### step by step recursion flow
-  1. recursion started with => no packages selected and total weight is 0 => `_backtrack(0, [], 0)`
-  2. try `PKG1` => current batch: `[PKG1]` and weight: `50 (<200)` => best batch updated to `[PKG1]`
-  3. try `PKG2` with 1 => current batch: `[PKG1, PKG2]` and weight: `125 (<200)` => best batch updataed to `[PKG1, PKG2]`
-  4. try `PKG3` with 1,2 => current batch: `[PKG1, PKG2, PKG3]` and weight: `300 (>200)` => exceeded max weight - recursion stops here and backtrack => batch is still `[PKG1, PLG2]`
-  5, try `PKG4` with 1,2 => current batch: `[PKG1, PKG2, PKG4]` and weight: `235 (>200)` => exceeded max weight - recursion stops and backtrack => batch is still `[PKG1, PLG2]`
-  6. try `PKG5` with 1,2 => current batch: `[PKG1, PKG2, PKG5]` and weight: `280 (>200)` => exceeded max weight - recursion stops and backtrack => batch is still `[PKG1, PLG2]`
-  
-  7. try `PKG3` with 1 => current batch: `[PKG1, PKG3]` and weight: `225 (>200)` => recursion stops and backtrack
-  
-  8. try `PKG4` with 1 => current batch: `[PKG1, PKG4]` and weight: `160 (<200)` => same package count, higher weight -> best batch updated to `[PKG1, PKG4]`
-  
-  9. backtrack and try `PKG2` and `PKG4` => current batch: `[PKG3, PKG4]` and weight: `185` => best batch
-  
-  10. try `PKG3` alone => weight `185 (<200)` => but less packages, not preferred
-  
-  11. try `PKG4` and `PKG5` => weight become `265` => stop and backtrack
-  
-  ### so the final batch selected is [PKG2, PKG4] => 
-  1. weight 185 (maximum possible under 200 weight limit).
-  2. number of packages: 2. 
+## How to Run the Project
+1. Install Dependencies:
+   ```
+   npm install
+   ```
+2. Start Application:
+   ```
+   npm start
+   ```
+3. Run tests:
+   ```
+   npm test
+   ```
+
+## Features
+1. **Delivery Cost Calculation**
+   - Delivery Cost
+    ```
+    Base Delivery Cost + (Package Total Weight * 10) + (Distance to Destination * 5)
+    ```
+   - **Discounts** : Applied only when the offer code is valid. You can view the available offer codes in `src/config/offers.js`
+
+2. **Delivery Time Calculation**
+     - Finds the best set of packages a vehicle can carry in one trip without exceeding its weight limit.
+     - Estimates delivery times considering multiple vehicles can work at the same time and must return to base between trips.
+
+## Technical Choices
+1. Stack
+   - **Node.js**
+   - **inquirer** - Used for a better interactive CLI experience.
+   - **Jest** - Unit testing
+
+2. Algorithm Design
+   - A **backtracking** approach is used to finds the best set of packages a vehicle can carry in a single trip.
+   - **Rules**:
+     - Maximize number of packages per trip
+     - Maximize total batch weight
+     - Stay within vehicle weight limit
+
+## Testing
+Unit tests are written using **Jest** to validate basic logic, Including:
+   - Cost calculation
+   - Discounts
+   - Delivery Scheduling Time
+     
+## Folder Structure
+```
+src
+  assets                    
+    package.js             - Contains the Package Model.
+  calculations
+    deliveryCost.js        - CLI flow for calculating the delivery cost
+    deliveryTime.js        - CLI flow for calculating the delivery time
+  config
+    offers.js              - Offer rules
+  utils
+    service.js             - Core business logic
+    helper.js              - helpers and Output formatting
+    validate.js            - input validation functions
+    __tests__              - Unit tests
+index.js                   - Application entry point
+```
+
+## KIKI EXPRESS CLI – First Look
+![KIKI EXPRESS Logo](src/assets/kikiExpress.png)
+
+
