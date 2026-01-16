@@ -50,7 +50,7 @@ export function scheduleDeliveries(packages, vehicleCount, maxSpeed, maxWeight) 
 
         vehicleAvailable[vehicleIndex] = earliestAvailableTime + (2 * maxDistanceInTrip) / maxSpeed;
     }
-  return packages;
+    return packages;
 }
 
 function findBestBatch(availablePackages, maxWeight) {

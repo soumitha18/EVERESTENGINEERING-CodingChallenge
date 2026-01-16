@@ -8,7 +8,7 @@ async function main() {
                   K I K I   E X P R E S S
                   
 `);
-     
+
   while (true) {
     const { choice } = await inquirer.prompt({
       type: "list",

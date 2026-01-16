@@ -4,10 +4,10 @@ export default class Package {
     this.weight = weight;
     this.distance = distance;
     this.offer = offer?.toUpperCase() || "";
-    this.cost = 0;       
-    this.discount = 0;   
-    this.totalCost = 0;  
-    this.deliveryTime = 0; 
+    this.cost = 0;
+    this.discount = 0;
+    this.totalCost = 0;
+    this.deliveryTime = 0;
     this.delivered = false;
   }
 }

@@ -5,3 +5,10 @@ export function validatePositiveNumber(input, fieldName) {
   }
   return true;
 }
+
+export function validatePackageId(input) {
+  if (!input.trim()) {
+    return `${fieldName} must be a number greater than 0`;
+  }
+  return true
+}
