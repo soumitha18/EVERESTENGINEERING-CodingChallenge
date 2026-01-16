@@ -1,4 +1,5 @@
 import inquirer from "inquirer";
+import { calculateDeliveryCost } from "./calculations/deliveryCost.js";
 
 async function main() {
   console.log(`
@@ -18,7 +19,7 @@ async function main() {
     if (choice === "Exit") break;
 
     if (choice === "Calculate delivery cost") {
-      console.log(choice)
+      await calculateDeliveryCost()
     }
 
     if (choice === "Calculate delivery time") {
