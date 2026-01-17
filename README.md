@@ -75,6 +75,8 @@ index.js                   - Application entry point
 
 
 ## Demo
+[Click here to view the demo](src/assets/demo.webm)
+
 ### Cost Calculation
 ![Cost Calculation](src/assets/cost.png)
 
