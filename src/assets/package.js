@@ -1,5 +1,10 @@
 export default class Package {
   constructor({ id, weight, distance, offer }) {
+
+    if (!id) throw new Error("Package ID cannot be empty");
+    if (weight <= 0) throw new Error("Weight must be a number greater than 0");
+    if (distance <= 0) throw new Error("Distance must be a number greater than 0");
+
     this.id = id;
     this.weight = weight;
     this.distance = distance;

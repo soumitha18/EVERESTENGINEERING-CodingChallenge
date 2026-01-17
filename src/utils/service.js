@@ -16,17 +16,16 @@ export function calculateCost(baseCost, pkg) {
         }
     }
 
-     return {
-        ...pkg,
-        cost,
-        discount,
-        totalCost: cost - discount
-    };
+    pkg.cost = cost;
+    pkg.discount = discount;
+    pkg.totalCost = cost - discount;
+
+    return pkg;
 }
 
 export function scheduleDeliveries(packages, vehicleCount, maxSpeed, maxWeight) {
 
-    if (vehicleCount <= 0) throw new Error("Configuration Error: Vehicle count cannot be zero.");
+    if (vehicleCount <= 0) throw new Error("Vehicle count cannot be zero.");
 
     let vehicleAvailable = Array(vehicleCount).fill(0);
     let deliveredCount = 0;
