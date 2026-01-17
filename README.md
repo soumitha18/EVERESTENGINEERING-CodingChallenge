@@ -73,4 +73,8 @@ index.js                   - Application entry point
 ## KIKI EXPRESS CLI – First Look
 ![KIKI EXPRESS Logo](src/assets/kikiExpress.png)
 
+## Demo
+
+## Tests
+![Unit Test Cases](src/assets/testCases.png)
 
