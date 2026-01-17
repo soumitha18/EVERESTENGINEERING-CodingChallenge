@@ -73,7 +73,14 @@ index.js                   - Application entry point
 ## KIKI EXPRESS CLI – First Look
 ![KIKI EXPRESS Logo](src/assets/kikiExpress.png)
 
+
 ## Demo
+### Cost Calculation
+![Cost Calculation](src/assets/cost.png)
+
+### Delivery Time Calculation
+![Delivery Time Calculation](src/assets/schedule.png)
+
 
 ## Tests
 ![Unit Test Cases](src/assets/testCases.png)
