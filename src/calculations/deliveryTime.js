@@ -6,8 +6,8 @@ import { validatePositiveNumber } from "../utils/validate.js";
 export async function deliveryTime() {
     try{
         const { baseCost, packageCount } = await inquirer.prompt([
-            { name: "baseCost", message: "Enter Base Cost:", validate: (input) => validatePositiveNumber(input, "Base Cost") },
-            { name: "packageCount", message: "Enter number of packages:", validate: (input) => validatePositiveNumber(input, "Number of packages") }
+            { name: "baseCost", message: "Please Enter the base delivery cost: ", validate: (input) => validatePositiveNumber(input, "Base Cost") },
+            { name: "packageCount", message: "Please Enter the number of packages: ", validate: (input) => validatePositiveNumber(input, "Number of packages") }
         ]);
 
         const packages = [];
@@ -17,9 +17,9 @@ export async function deliveryTime() {
         }
 
         const { vehicleCount, maxSpeed, maxWeight, } = await inquirer.prompt([
-            { name: "vehicleCount", message: "Enter number of vehicles:", validate: (input) => validatePositiveNumber(input, "Vehicle Count") },
-            { name: "maxSpeed", message: "Enter max vehicle speed:", validate: (input) => validatePositiveNumber(input, "Max Speed") },
-            { name: "maxWeight", message: "Enter max vehicle weight:", validate: (input) => validatePositiveNumber(input, "Max Weight") }
+            { name: "vehicleCount", message: "Please Enter number of vehicles:", validate: (input) => validatePositiveNumber(input, "Vehicle Count") },
+            { name: "maxSpeed", message: "Please Enter max vehicle speed:", validate: (input) => validatePositiveNumber(input, "Max Speed") },
+            { name: "maxWeight", message: "Please Enter max vehicle weight:", validate: (input) => validatePositiveNumber(input, "Max Weight") }
         ]);
 
         const deliveredPackages = scheduleDeliveries(packages, Number(vehicleCount), Number(maxSpeed), Number(maxWeight));
