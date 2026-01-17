@@ -31,6 +31,7 @@ describe('scheduleDeliveries Function', () => {
                 expect(pkg.discount).toBe(expectedResults[i].discount)
                 expect(pkg.totalCost).toBe(expectedResults[i].totalCost)
                 expect(pkg.delivered).toBe(true)
+                expect(Number(pkg.deliveryTime.toFixed(2))).toBeCloseTo(expectedResults[i].deliveryTime, 1)
             })
         });
     });
