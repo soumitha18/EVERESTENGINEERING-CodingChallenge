@@ -7,7 +7,7 @@ describe('scheduleDeliveries Function', () => {
     const maxWeight = 200;
 
     describe("Normal delivery scheduling", () => {
-        let packages = [
+        const packages = [
             { id: "PKG1", weight: 50, distance: 30, offer: "OFR001" },
             { id: "PKG2", weight: 75, distance: 125, offer: "OFFR00008" },
             { id: "PKG3", weight: 175, distance: 100, offer: "OFFR003" },
